@@ -258,7 +258,7 @@ def multiplicity(la, mu, j):
 
     E.<z> = CyclotomicField(N)
 
-    return (sum(epsilonn(mu, i)* spin_charvalue(la, mu.power(i))* z ^ (i * j)for i in range(N))/ N)
+    return (sum(epsilonn(mu, i)* E(spin_charvalue(la, mu.power(i)))* z ^ (i * j)for i in range(N))/ N)
 
 
 #--------------------------------------------------------------------------
@@ -281,10 +281,9 @@ for n in range(3,15):
 
             N = order(mu)
             E.<z> = CyclotomicField(N)
-            zbar = QQbar(z)
 
             values = [
-                sum(QQbar(epsilonn(mu,i))*QQbar(A[mu.power(i)])*zbar^(i*j)
+                sum(epsilonn(mu,i)*E(A[mu.power(i)])*z^(i*j)
                     for i in range(N))/N
                 for j in range(N)
             ]
