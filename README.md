@@ -1,0 +1,1 @@
+# Minimal_polynomial_computation_in_spin_characters
