@@ -247,7 +247,7 @@ def epsilonn(la, k):
 
 def multiplicity(la, mu, j):
     r"""
-    Return the multiplicity of the Nth j-th root of unity in τ_μ inside the spin representation V_λ.
+    Return the multiplicity of the j-th power of N-th root of unity as an eigenvalue of sigma_μ inside the spin representation V_λ.
 
     Assumes lcm(λ) is odd.
     """
