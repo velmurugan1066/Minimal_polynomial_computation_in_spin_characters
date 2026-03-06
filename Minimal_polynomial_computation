@@ -163,7 +163,7 @@ def epsilon(n, k):
 
         if gcd(k, n) == 1:
 
-            if m % 4 == 1 and kronecker(m, k) == 1:
+            if m % 4 == 1 and kronecker(k, m) == (-1)^((k-1)/2):
                 return 1
 
             if m % 4 == 3 and kronecker(k, m) == 1:
@@ -177,7 +177,7 @@ def epsilon(n, k):
                 if c % 2 == 0 and b % 4 == 1 and kronecker(k, b) == -1:
                     return 1
 
-                if c % 2 == 0 and b % 4 == 3 and kronecker(b, k) == -1:
+                if c % 2 == 0 and b % 4 == 3 and kronecker(k, b) == (-1)^((k-1)/2):
                     return 1
 
                 if c % 2 == 1 and k % 4 == 1 and kronecker(k, b) == (-1) ^ ((k - 1) / 4):
@@ -271,30 +271,30 @@ for n in range(3,15):
     print()
 
     for la in DistinctPartPartitions(n):
+        print()
+        print(la)
+        print()
 
         n = sum(la)
         A = {eta: spin_charvalue(la, eta) for eta in Partitions(n)}
-
-        printed = False
 
         for mu in Partitions(n):
 
             N = order(mu)
             E.<z> = CyclotomicField(N)
 
-            values = [
+            print( [
                 sum(epsilonn(mu,i)*E(A[mu.power(i)])*z^(i*j)
                     for i in range(N))/N
-                for j in range(N)
-            ]
+                for j in range(N)])
 
-            nonzero_count = sum(1 for v in values if v != 0)
+            # nonzero_count = sum(1 for v in values if v != 0)
 
-            if nonzero_count < lcm(mu):
-                if not printed:
-                    print()
-                    print(la)
-                    print()
-                    printed = True
+            # if nonzero_count < lcm(mu):
+            #     if not printed:
+            #         print()
+            #         print(la)
+            #         print()
+            #         printed = True
 
-                print((mu, values))
+            #     print((mu, values))
