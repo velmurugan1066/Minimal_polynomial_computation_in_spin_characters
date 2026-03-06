@@ -15,7 +15,7 @@ Q = Sym.hall_littlewood(t=-1).Q()
 
 
 # -------------------------------------------------------------------------
-# Partition families
+# Useful families of Partitions
 # -------------------------------------------------------------------------
 
 def DistinctPartPartitions(n):
@@ -53,7 +53,7 @@ def d(la):
 
 
 def och(la):
-    """Odd Hall–Littlewood symmetric function associated to la."""
+    """modified Q-Schur function associated to la."""
     return d(la) * Q(la)
 
 
@@ -82,11 +82,7 @@ def spin_charvalue(la, mu):
     if sum(1 - a % 2 for a in la) % 2 == 0:
 
         if all(a % 2 == 1 for a in mu):
-            return (
-                ochla.coefficient(mu)
-                * mu.centralizer_size()
-                / 2 ^ (len(mu) / 2)
-            )
+            return (ochla.coefficient(mu)* mu.centralizer_size()/ 2 ^ (len(mu) / 2))
         else:
             return 0
 
@@ -94,12 +90,7 @@ def spin_charvalue(la, mu):
     else:
 
         if all(a % 2 == 1 for a in mu):
-            return (
-                ochla.coefficient(mu)
-                * mu.centralizer_size()
-                / 2 ^ (len(mu) / 2)
-                / 2
-            )
+            return (ochla.coefficient(mu)* mu.centralizer_size()/ 2 ^ (len(mu) / 2)/ 2)
 
         elif la == mu:
             return I ^ ((sum(la) - len(la) + 1) / 2) * sqrt(prod(la) / 2)
@@ -109,7 +100,7 @@ def spin_charvalue(la, mu):
 
 
 # -------------------------------------------------------------------------
-# Star sign and order of representatives
+# Star sign and orders of representatives of the n-cycle and general element
 # -------------------------------------------------------------------------
 
 def star_sign(n):
@@ -130,15 +121,9 @@ def star_sign_partition(la):
     if l == 1:
         return star_sign(la[0])
 
-    exponent = sum(
-        bars[i] * sum(bars[i+1:])
-        for i in range(l - 1)
-    )
+    exponent = sum(bars[i] * sum(bars[i+1:]) for i in range(l - 1))
 
-    return (
-        (-1) ^ (binomial(r, 2) * exponent)
-        * prod(star_sign(a) ^ (r / a) for a in la)
-    )
+    return ( (-1) ^ (binomial(r, 2) * exponent) * prod(star_sign(a) ^ (r / a) for a in la))
 
 
 def order(la):
@@ -252,22 +237,8 @@ def epsilonn(la, k):
         if mu not in DistinctOdd(n):
             return 0
 
-        return (
-            (-1) ^ (
-                binomial(k, 2)
-                * sum(
-                    (la[t] - 1)
-                    * sum(la[i] - 1 for i in range(t + 1, l))
-                    for t in range(l - 1)
-                )
-            )
-            * prod(epsilon(la[i], k) for i in range(l))
-            * prod(
-                kronecker(k, la[i])
-                for i in range(l)
-                if la[i] % 2 == 1
-            )
-        )
+        return ((-1) ^ ( binomial(k, 2) * sum((la[t] - 1) * sum(la[i] - 1 for i in range(t + 1, l)) for t in range(l - 1)))
+                * prod(epsilon(la[i], k) for i in range(l))* prod(kronecker(k, la[i]) for i in range(l) if la[i] % 2 == 1))
 
 
 # -------------------------------------------------------------------------
@@ -276,8 +247,7 @@ def epsilonn(la, k):
 
 def multiplicity(la, mu, j):
     r"""
-    Return the multiplicity of the j-th root of unity in τ_μ
-    inside the spin representation V_λ.
+    Return the multiplicity of the Nth j-th root of unity in τ_μ inside the spin representation V_λ.
 
     Assumes lcm(λ) is odd.
     """
@@ -288,12 +258,4 @@ def multiplicity(la, mu, j):
 
     E.<z> = CyclotomicField(N)
 
-    return (
-        sum(
-            epsilonn(mu, i)
-            * spin_charvalue(la, mu.power(i))
-            * z ^ (i * j)
-            for i in range(N)
-        )
-        / N
-    )
+    return (sum(epsilonn(mu, i)* spin_charvalue(la, mu.power(i))* z ^ (i * j)for i in range(N))/ N)
