@@ -275,17 +275,23 @@ for n in range(3,15):
         print(la)
         print()
 
+        n = sum(la)
+
+        # store character values
         A = {eta: spin_charvalue(la, eta) for eta in Partitions(n)}
 
         for mu in Partitions(n):
+
             N = order(mu)
-            z = QQbar.zeta(N)
+            E.<z> = CyclotomicField(N)
 
             values = [
-                sum(epsilonn(mu,i)*A[mu.power(i)]*z^(i*j) for i in range(N))/N
+                QQbar(sum(epsilonn(mu,i)*A[mu.power(i)]*z^(i*j) for i in range(N))/N)
                 for j in range(N)
             ]
 
-            print((mu, values))
+            # count non-zero terms
+            nonzero_count = sum(1 for v in values if v != 0)
 
-
+            if nonzero_count < lcm(mu):
+                print((mu, values))
