@@ -281,6 +281,9 @@ for n in range(3,15):
 
             N = order(mu)
             E.<z> = CyclotomicField(N)
+#--------------------------------------------------------------------------
+# prints multiplicities of eigenvalues of of mu in la
+#--------------------------------------------------------------------------
 
             print( [
                 sum(epsilonn(mu,i)*E(A[mu.power(i)])*z^(i*j)
