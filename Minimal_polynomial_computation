@@ -150,8 +150,6 @@ def epsilon(n, k):
         if d == N / gcd(k, N):
             return 1
 
-        elif N == 2 * n and k == n:
-            return -1
 
         else:
             return -1
@@ -199,9 +197,6 @@ def epsilon(n, k):
 
                 if d == (N / gcd(k, N)):
                     return 1
-
-                elif N == 2 * n and k == n:
-                    return -1
 
                 else:
                     return -1
