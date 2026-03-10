@@ -275,7 +275,6 @@ for n in range(3,15):
         print(la)
         print()
 
-        n = sum(la)
         A = {eta: spin_charvalue(la, eta) for eta in Partitions(n)}
 
         for mu in Partitions(n):
