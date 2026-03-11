@@ -101,6 +101,48 @@ def spin_charvalue(la, mu):
             return 0
 
 
+
+
+# -------------------------------------------------------------------------
+# Spin Character table of double cover of the symmetric group
+# -------------------------------------------------------------------------
+
+def spin_char_table(n):
+    
+    Sym = SymmetricFunctions(QQ)
+    p = Sym.p()
+    Q = Sym.hall_littlewood(t=-1).Q()
+
+    
+    
+    D=DistinctPartPartitions(n)
+    P=Partitions(n)
+    O=OddPartPartitions(n)
+    DA=[mu for mu in D if sum(1-a%2 for a in mu)%2==1]
+    T={}
+
+    for la in D:
+        T[la]={}
+        e = (sum(la) - len(la)) % 2
+        f = 2 ^ ((e - len(la)) / 2)
+        Q_Schur_la = p(f * Q(la))
+
+        for mu in P:
+            if mu not in O and mu not in DA:
+                T[la][mu]=0
+            else:
+                if mu in DA:
+                    if mu==la:
+                        T[la][mu] = I^((n-len(la)+1)/2)*sqrt(prod(la)/2)
+                    else:
+                        T[la][mu]=0
+                else:
+                    T[la][mu]= Q_Schur_la.coefficient(mu)* mu.centralizer_size()/ 2 ^ (len(mu) / 2)/ 2
+    return T
+
+
+
+
 # -------------------------------------------------------------------------
 # Star sign and orders of representatives of the n-cycle and general element
 # -------------------------------------------------------------------------
@@ -262,7 +304,7 @@ def multiplicity(la, mu, j):
 # For a faster results try the following with a problem appearing in la==mu with odd number of even parts
 #--------------------------------------------------------------------------
 
-for n in range(3,15):
+for n in range(3,7):
     print()
     print(n)
     print()
@@ -285,3 +327,39 @@ for n in range(3,15):
             print((mu, "element", [ sum(epsilonn(mu,i)*E(A[mu.power(i)])*z^(i*j)
                     for i in range(N))/N
                 for j in range(N)]))
+
+
+
+
+
+
+#-------------------------------------------------------------------------------------------
+# For a much faster results when computing eigenvalues for all possible pair of partitions
+#-------------------------------------------------------------------------------------------
+
+
+for n in range(3,7):
+    print()
+    print(n)
+    print()
+
+    T= spin_char_table(n)
+
+    for la in DistinctPartPartitions(n):
+        print()
+        print("irreducible",la)
+        print()
+        
+        A = {eta: spin_charvalue(la, eta) for eta in Partitions(n)}
+        
+        for mu in Partitions(n):
+
+            N = order(mu)
+            E.<z> = CyclotomicField(N)
+#--------------------------------------------------------------------------
+# prints multiplicities of eigenvalues of of mu in la
+#--------------------------------------------------------------------------
+
+            print((mu, "element", [ sum(epsilonn(mu,i) * E(A[la][mu.power(i)]) * z^(i*j) for i in range(N))/N for j in range(N)]))
+
+
