@@ -30,9 +30,11 @@ def OddPartPartitions(n):
 
 def DistinctEven(n):
     """Distinct partitions of n with an even number of even parts."""
+    T=[]
     for la in DistinctPartPartitions(n):
         if sum(1 - a % 2 for a in la) % 2 == 0:
-            yield la
+            T.append(la)
+    return T
 
 
 def DistinctOdd(n):
@@ -280,18 +282,6 @@ for n in range(3,15):
 # prints multiplicities of eigenvalues of of mu in la
 #--------------------------------------------------------------------------
 
-            print((mu, "element", [
-                sum(epsilonn(mu,i)*E(A[mu.power(i)])*z^(i*j)
+            print((mu, "element", [ sum(epsilonn(mu,i)*E(A[mu.power(i)])*z^(i*j)
                     for i in range(N))/N
-                for j in range(N)])
-
-            # nonzero_count = sum(1 for v in values if v != 0)
-
-            # if nonzero_count < lcm(mu):
-            #     if not printed:
-            #         print()
-            #         print(la)
-            #         print()
-            #         printed = True
-
-            #     print((mu, values))
+                for j in range(N)]))
