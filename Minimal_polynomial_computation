@@ -267,7 +267,7 @@ for n in range(3,15):
 
     for la in DistinctPartPartitions(n):
         print()
-        print(la)
+        print("irreducible",la)
         print()
         
         A = {eta: spin_charvalue(la, eta) for eta in Partitions(n)}
@@ -280,7 +280,7 @@ for n in range(3,15):
 # prints multiplicities of eigenvalues of of mu in la
 #--------------------------------------------------------------------------
 
-            print( [
+            print((mu, "element", [
                 sum(epsilonn(mu,i)*E(A[mu.power(i)])*z^(i*j)
                     for i in range(N))/N
                 for j in range(N)])
