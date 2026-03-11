@@ -360,6 +360,6 @@ for n in range(3,7):
 # prints multiplicities of eigenvalues of of mu in la
 #--------------------------------------------------------------------------
 
-            print((mu, "element", [ sum(epsilonn(mu,i) * E(A[la][mu.power(i)]) * z^(i*j) for i in range(N))/N for j in range(N)]))
+            print((mu, "element", [ sum(epsilonn(mu,i) * E(T[la][mu.power(i)]) * z^(i*j) for i in range(N))/N for j in range(N)]))
 
 
